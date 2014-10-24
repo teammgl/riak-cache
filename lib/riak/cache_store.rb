@@ -36,6 +36,14 @@ module Riak
       end
     end
 
+    def clear(options = {})
+      bucket.keys do | keys |
+        keys.each do | k |
+          bucket.delete(k, options)
+        end
+      end
+    end
+
     protected
     def set_bucket_defaults
       begin

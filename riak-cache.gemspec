@@ -12,10 +12,10 @@ Gem::Specification.new do |gem|
   gem.authors = ["Sean Cribbs"]
 
   # Deps
-  gem.add_development_dependency "rspec", "~>2.8.0"
-  gem.add_development_dependency 'rake'
-  gem.add_runtime_dependency "riak-client", "~> 1.0.0"
-  gem.add_runtime_dependency "activesupport", "~> 3.0"
+  gem.add_development_dependency "rspec", "~>2.13"
+  gem.add_development_dependency 'rake', '~> 10.3'
+  gem.add_runtime_dependency "riak-client", "~> 2.1"
+  gem.add_runtime_dependency "activesupport", "~> 3.2"
 
   # Files
   ignores = File.read(".gitignore").split(/\r?\n/).reject{ |f| f =~ /^(#.+|\s*)$/ }.map {|f| Dir[f] }.flatten
