@@ -13,17 +13,20 @@ module Riak
     def initialize(options = {})
       super
       @bucket_name = options.delete(:bucket) || '_cache'
+      bucket_type_name = options.delete(:bucket_type)
+
       @n_value = options.delete(:n_value) || 2
       @r = options.delete(:r) || 1
       @w = options.delete(:w) || 1
       @dw = options.delete(:dw) || 0
       @rw = options.delete(:rw) || "quorum"
       @client = Riak::Client.new(options)
+      @bucket_type = bucket_type_name ? @client.bucket_type(bucket_type_name) : @client
       set_bucket_defaults
     end
 
     def bucket
-      @bucket ||= @client.bucket(@bucket_name)
+      @bucket ||= @bucket_type.bucket(@bucket_name)
     end
 
     def delete_matched(matcher, options={})
@@ -60,7 +63,7 @@ module Riak
 
     def write_entry(key, value, options={})
       object = bucket.get_or_new(key)
-      object.content_type = 'application/yaml'
+      object.content_type = 'application/x-ruby-marshal'
       object.data = value
       object.store
     end
